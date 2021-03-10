@@ -1,6 +1,8 @@
 import React from "react";
 import Product from "./product";
-
+const btnstyle={
+  float: "right"
+}
 export default class Form extends React.Component {
   state = {
     quantity: "",
@@ -10,6 +12,7 @@ export default class Form extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     console.log(this.state);
+    this.props.addToCart(this.state);
   };
 
   inputChange = (e) => {
@@ -26,10 +29,36 @@ export default class Form extends React.Component {
   };
 
   render() {
-    return (
+    return (    
       <div className="container">
         <form onSubmit={this.onSubmit}>
-          <p>
+        <div class="basket-module">
+          <label for="promo-code">Add Product In Cart</label>
+          {/* <input id="promo-code" type="text" name="promo-code" maxlength="5" class="promo-code-field"/> */}
+          <button class="promo-code-cta" style={btnstyle}>Add</button>
+          <input
+                style={{float: "right",height:"25px"}}
+                type="number"
+                placeholder="quantity"
+                value={this.state.quantity}
+                onChange={this.inputChange}
+                name="quantity"
+                class="quantity-field"
+              />
+          <select
+                className="promo-code-field"
+                id="promo-code"
+                value={this.state.name}
+                onChange={this.selectChange}
+              >
+                <option>Select an option...</option>
+                {this.props.products.map((product, i) => (
+                  <Product key={i} product={product} />
+                ))}
+              </select>
+             
+        </div>
+          {/* <p>
             <label>
               Quantity:{" "}
               <input
@@ -58,7 +87,7 @@ export default class Form extends React.Component {
           </label>
           <p>
             <input type="submit" value="Submit" />
-          </p>
+          </p> */}
         </form>
       </div>
     );
